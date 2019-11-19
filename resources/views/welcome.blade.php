@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -81,10 +82,12 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Alex's Entry Project
+                    Alex's Florist Finder
                 </div>
                 <div>
-                    <a href="" class="" >Enter</a>
+                    <a href="/index" class="" style="font-size: 40px" >
+                        <i class="fas fa-seedling"></i>
+                    </a>
                 </div>
         </div>
     </body>
