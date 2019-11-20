@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -16,23 +17,37 @@ class Controller extends BaseController
     public function index()
     {
         // Get access token via oauth2-yelp library
-    $provider = new \Stevenmaguire\OAuth2\Client\Provider\Yelp([
-        'clientId'          => '{yelp-client-id}',
-        'clientSecret'      => '{yelp-client-secret}'
-    ]);
-    $accessToken = (string) $provider->getAccessToken('client_credentials');
-
-    // Provide the access token to the yelp-php client
-    $client = new \Stevenmaguire\Yelp\v3\Client(array(
-        'accessToken' => $accessToken,
-        'apiHost' => 'api.yelp.com' // Optional, default 'api.yelp.com'
-    ));
        return view('component.index');
     }
 
-    public function yelp()
+    public function yelp(Request $request)
     {
-        $response = $request('GET', '');
+
+        $options = array(
+            // 'accessToken' => 'YOUR ACCESS TOKEN', // Required, unless apiKey is provided
+            'apiHost' => 'api.yelp.com', // Optional, default 'api.yelp.com',
+            'apiKey' => env('YAK'), // Required, unless accessToken is provided
+        );
+
+        $client = \Stevenmaguire\Yelp\ClientFactory::makeWith(
+            $options,
+            \Stevenmaguire\Yelp\Version::THREE
+        );        
+        // Provide the access token to the yelp-php client
+        // $client = new \Stevenmaguire\Yelp\v3\Client(array(
+        //     'apiKey' => env('YAK'),
+        //     'apiHost' => 'api.yelp.com' // Optional, default 'api.yelp.com'
+        // ));        
+        $parameters = [
+        'term' => 'food',
+        'location' => 'St. Louis, Missouri',
+        // 'location' => $request->get('location'),
+        'radius' => 100,
+        'limit' => 10,
+    ];
+    $results = $client->getBusinessesSearchResults($parameters);
+    dump($results);
+    return view('component.results', compact('results'));
     }
 }
 
