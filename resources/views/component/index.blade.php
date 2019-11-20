@@ -12,13 +12,37 @@
     {{-- Form For Location --}}
       <form action="{{ url('/results') }}"  method="POST">
       {{ csrf_field() }}
-        <input id="location" class="form-control" type="text" name="location" placeholder="Search By Location" aria-label="Search" required>
+      <input id="location" class="form-control" type="text" name="location" placeholder="Search By Location" value='' aria-label="Search" required>
+      <input type="hidden" id="longitude" name="longitude" value>
         <br>
         <button type="submit" class="btn btn-primary edit-form-btn" title="Search">Search</button>
+        <button class="btn btn-info" onclick="getLocation()">Use Location</button> <br>
       </form>
     </div>
   </div>
 </div>
+<div id="secret">
+
+</div>
+
+
+
 <script>
+var locale = document.getElementById('location');
+var longitude = document.getElementById('longitude');
+function getLocation() {
+    var secret = document.getElementById('secret');
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        secret.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    locale.setAttribute('name', 'latitude')
+    locale.value = position.coords.latitude;
+    longitude.value = position.coords.longitude;
+}
 </script>
 @yield('results')

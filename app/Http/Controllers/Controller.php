@@ -45,7 +45,7 @@ class Controller extends BaseController
         'latitude' => $latitude,
         'longitude' => $longitude,
         'radius' => 5000,
-        'limit' => 10,
+        'limit' => 20,
     ];
     $results = $client->getBusinessesSearchResults($parameters);
     return view('component.results', compact('results'));
