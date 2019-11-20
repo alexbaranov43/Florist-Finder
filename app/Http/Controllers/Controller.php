@@ -21,11 +21,13 @@ class Controller extends BaseController
        return view('component.index');
     }
 
-    public function yelp(Request $request)
+    public function yelp()
     {
 
-
-        $input = Request::input('location');
+        // Get the location from the Blade
+        $latitude = Request::input('latitude');
+        $longitude = Request::input('longitude');
+        $location = Request::input('location');
         $options = array(
             // 'accessToken' => 'YOUR ACCESS TOKEN', // Required, unless apiKey is provided
             'apiHost' => 'api.yelp.com', // Optional, default 'api.yelp.com',
@@ -35,20 +37,20 @@ class Controller extends BaseController
         $client = \Stevenmaguire\Yelp\ClientFactory::makeWith(
             $options,
             \Stevenmaguire\Yelp\Version::THREE
-        );        
-        // Provide the access token to the yelp-php client
-        // $client = new \Stevenmaguire\Yelp\v3\Client(array(
-        //     'apiKey' => env('YAK'),
-        //     'apiHost' => 'api.yelp.com' // Optional, default 'api.yelp.com'
-        // ));        
+        );   
+
         $parameters = [
         'term' => 'florist',
-        'location' => $input,
+        'location' => $location,
+        'latitude' => $latitude,
+        'longitude' => $longitude,
         'radius' => 5000,
         'limit' => 10,
     ];
     $results = $client->getBusinessesSearchResults($parameters);
-    dump($results->businesses);
+    if ($results->error) {
+        return redirect()->back();
+    }
     return view('component.results', compact('results'));
     }
 }
