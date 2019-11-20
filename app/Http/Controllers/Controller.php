@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
+use Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,6 +24,8 @@ class Controller extends BaseController
     public function yelp(Request $request)
     {
 
+
+        $input = Request::input('location');
         $options = array(
             // 'accessToken' => 'YOUR ACCESS TOKEN', // Required, unless apiKey is provided
             'apiHost' => 'api.yelp.com', // Optional, default 'api.yelp.com',
@@ -39,14 +42,13 @@ class Controller extends BaseController
         //     'apiHost' => 'api.yelp.com' // Optional, default 'api.yelp.com'
         // ));        
         $parameters = [
-        'term' => 'food',
-        'location' => 'St. Louis, Missouri',
-        // 'location' => $request->get('location'),
-        'radius' => 100,
+        'term' => 'florist',
+        'location' => $input,
+        'radius' => 5000,
         'limit' => 10,
     ];
     $results = $client->getBusinessesSearchResults($parameters);
-    dump($results);
+    dump($results->businesses);
     return view('component.results', compact('results'));
     }
 }
