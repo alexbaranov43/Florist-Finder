@@ -10,7 +10,7 @@
   <div class="row">
     <div class="md-form mt-0 col-md-5">
     {{-- Form For Location --}}
-      <form action="{{ url('/results') }}"  method="POST">
+      <form action="{{ url('/results') }}"  method="GET">
       {{ csrf_field() }}
       <input id="location" class="form-control" type="text" name="location" placeholder="Search By Location" value='' aria-label="Search" required>
       <input type="hidden" id="longitude" name="longitude" value>

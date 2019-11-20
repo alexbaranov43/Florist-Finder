@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/results', 'Controller@yelp');
+Route::get('/results', 'Controller@yelp');
 Route::get('/index', 'Controller@index');
