@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use Stevenmaguire\Yelp\Exception\HttpException as CustomException;
+
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -46,6 +48,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof CustomException) {
+        return redirect()->back();
+    }
         return parent::render($request, $exception);
     }
 }

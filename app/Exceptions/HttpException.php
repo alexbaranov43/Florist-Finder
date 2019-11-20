@@ -18,6 +18,7 @@ class HttpException extends \Exception
      */
     public function setResponseBody($body = null)
     {
+        return redirect()->back();
         $this->responseBody = $body;
         return $this;
     }
@@ -28,6 +29,7 @@ class HttpException extends \Exception
      */
     public function getResponseBody()
     {
+        return redirect()->back();
         return $this->responseBody;
     }
 }

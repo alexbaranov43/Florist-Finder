@@ -48,6 +48,9 @@ class Controller extends BaseController
         'limit' => 20,
     ];
     $results = $client->getBusinessesSearchResults($parameters);
+    if (!$results) {
+        return redirect()->back();
+    }
     return view('component.results', compact('results'));
     }
 }
